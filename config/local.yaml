@@ -1,0 +1,23 @@
+app:
+  name: "feline-intelligence"
+  version: "1.0.0"
+  env: "local" # Possible values: local, dev, prod
+
+server:
+  host: "127.0.0.1"
+  port: 8080
+  read_timeout: 5s  # Maximum duration for reading the entire request, including the body
+  write_timeout: 10s # Maximum duration before timing out writes of the response
+  idle_timeout: 60s  # Maximum amount of time to wait for the next request when keep-alives are enabled
+
+logger:
+  level: "debug" # Possible levels: debug, info, warn, error
+  format: "text" # Or "json"
+
+database:
+  host: "postgres"
+  port: 5432
+  user: "postgres"
+  password: "password"
+  dbname: "feline_db"
+  sslmode: "disable"
