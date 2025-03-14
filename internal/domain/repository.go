@@ -2,7 +2,7 @@ package domain
 
 import "github.com/alextotalk/feline-intelligence/internal/domain/model"
 
-// CatRepository описує всі операції з котами (CRUD).
+// CatRepository
 type CatRepository interface {
 	Create(cat *model.Cat) error
 	GetByID(id int) (*model.Cat, error)
@@ -11,7 +11,7 @@ type CatRepository interface {
 	Delete(id int) error
 }
 
-// MissionRepository описує CRUD-операції з місіями та додатковий метод призначення кота.
+// MissionRepository
 type MissionRepository interface {
 	Create(mission *model.Mission) error
 	GetByID(id int) (*model.Mission, error)
@@ -21,7 +21,7 @@ type MissionRepository interface {
 	AssignCat(missionID, catID int) error
 }
 
-// TargetRepository описує операції з “цілями” (Target).
+// TargetRepository
 type TargetRepository interface {
 	AddToMission(target *model.Target) error
 	Update(target *model.Target) error

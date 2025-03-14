@@ -10,7 +10,6 @@ import (
 )
 
 type MissionUsecase interface {
-	// Місії
 	CreateMission(ctx context.Context, mission *model.Mission) error
 	DeleteMission(ctx context.Context, missionID int) error
 	CompleteMission(ctx context.Context, missionID int) error
@@ -19,7 +18,6 @@ type MissionUsecase interface {
 	ListMissions(ctx context.Context) ([]model.Mission, error)
 	AssignCatToMission(ctx context.Context, missionID, catID int) error
 
-	// Цілі
 	AddTarget(ctx context.Context, target *model.Target) error
 	DeleteTarget(ctx context.Context, targetID int) error
 	CompleteTarget(ctx context.Context, targetID int) error
@@ -40,12 +38,10 @@ func NewMissionUsecase(mr domain.MissionRepository, tr domain.TargetRepository, 
 	}
 }
 
-// Створення місії разом із цілями.
 func (u *missionUsecase) CreateMission(ctx context.Context, mission *model.Mission) error {
 	if err := u.missionRepo.Create(mission); err != nil {
 		return err
 	}
-	// Додаємо цілі, якщо вони були передані
 	for i := range mission.Targets {
 		mission.Targets[i].MissionID = mission.ID
 		if err := u.targetRepo.AddToMission(&mission.Targets[i]); err != nil {
@@ -55,7 +51,6 @@ func (u *missionUsecase) CreateMission(ctx context.Context, mission *model.Missi
 	return nil
 }
 
-// Видалення місії
 func (u *missionUsecase) DeleteMission(ctx context.Context, missionID int) error {
 	mission, err := u.missionRepo.GetByID(missionID)
 	if err != nil {
@@ -67,13 +62,12 @@ func (u *missionUsecase) DeleteMission(ctx context.Context, missionID int) error
 	return u.missionRepo.Delete(missionID)
 }
 
-// Завершення (complete) місії
 func (u *missionUsecase) CompleteMission(ctx context.Context, missionID int) error {
 	mission, err := u.missionRepo.GetByID(missionID)
 	if err != nil {
 		return err
 	}
-	// Перевіряємо, чи всі цілі завершені
+	// check that all goals are completed
 	for _, t := range mission.Targets {
 		if !t.Complete {
 			return fmt.Errorf("target %d is not complete, cannot complete mission %d", t.ID, missionID)
@@ -92,7 +86,7 @@ func (u *missionUsecase) ListMissions(ctx context.Context) ([]model.Mission, err
 }
 
 func (u *missionUsecase) AssignCatToMission(ctx context.Context, missionID, catID int) error {
-	// Перевірити, чи кіт існує
+	// check if the cat exists
 	cat, err := u.catRepo.GetByID(catID)
 	if err != nil {
 		return err
@@ -100,7 +94,7 @@ func (u *missionUsecase) AssignCatToMission(ctx context.Context, missionID, catI
 	if cat == nil {
 		return errors.New("cat does not exist")
 	}
-	// Перевірити, чи місія завершена
+	// check if the mission is completed
 	mission, err := u.missionRepo.GetByID(missionID)
 	if err != nil {
 		return err
@@ -111,7 +105,6 @@ func (u *missionUsecase) AssignCatToMission(ctx context.Context, missionID, catI
 	return u.missionRepo.AssignCat(missionID, catID)
 }
 
-// Цілі
 func (u *missionUsecase) AddTarget(ctx context.Context, target *model.Target) error {
 	mission, err := u.missionRepo.GetByID(target.MissionID)
 	if err != nil {
@@ -141,8 +134,8 @@ func (u *missionUsecase) UpdateTargetNotes(ctx context.Context, targetID int, ne
 	if err != nil {
 		return err
 	}
-	// У БД тригери перевіряють, чи можна оновити notes.
-	// Можемо додатково перевірити на рівні бізнес-логіки:
+	// In the database, triggers check whether it is possible to update Notes.
+	// We can additionally check at the business logic level:
 	if t.Complete {
 		return errors.New("cannot update notes of a completed target")
 	}

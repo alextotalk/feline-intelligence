@@ -15,11 +15,9 @@ type CatHandler struct {
 	catUC usecase.CatUsecase
 }
 
-// NewCatHandler реєструє хендлери котів у роутері Echo.
 func NewCatHandler(e *echo.Echo, catUC usecase.CatUsecase) {
 	handler := &CatHandler{catUC: catUC}
 
-	// Маршрути
 	e.POST("/cats", handler.CreateCat)
 	e.GET("/cats", handler.ListCats)
 	e.GET("/cats/:id", handler.GetCatByID)
@@ -27,16 +25,16 @@ func NewCatHandler(e *echo.Echo, catUC usecase.CatUsecase) {
 	e.DELETE("/cats/:id", handler.DeleteCat)
 }
 
-// CreateCat створює нового кота.
-// @Summary Створити кота
-// @Description Створює нового шпигунського кота з наданими даними
+// CreateCat Creates a new cat.
+// @Summary Create a cat
+// @Description Creates a new spy cat with data provided
 // @Tags cats
 // @Accept json
 // @Produce json
-// @Param cat body model.Cat true "Дані кота"
+// @Param cat body model.Cat true "Cat data"
 // @Success 201 {object} model.Cat
-// @Failure 400 {object} map[string]string "Невірний запит"
-// @Failure 500 {object} map[string]string "Внутрішня помилка сервера"
+// @Failure 400 {object} map[string]string “Incorrect request”
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /cats [post]
 func (h *CatHandler) CreateCat(c echo.Context) error {
 	var cat model.Cat
@@ -51,14 +49,14 @@ func (h *CatHandler) CreateCat(c echo.Context) error {
 	return c.JSON(http.StatusCreated, cat)
 }
 
-// ListCats повертає список усіх котів.
-// @Summary Список котів
-// @Description Отримує список усіх шпигунських котів
+// ListCats Returns all cats.
+// @Summary List of cats
+// @Description Gets a list of all spy cats
 // @Tags cats
 // @Accept json
 // @Produce json
 // @Success 200 {array} model.Cat
-// @Failure 500 {object} map[string]string "Внутрішня помилка сервера"
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /cats [get]
 func (h *CatHandler) ListCats(c echo.Context) error {
 	cats, err := h.catUC.ListCats(context.Background())
@@ -68,16 +66,16 @@ func (h *CatHandler) ListCats(c echo.Context) error {
 	return c.JSON(http.StatusOK, cats)
 }
 
-// GetCatByID повертає кота за його ID.
-// @Summary Отримати кота за ID
-// @Description Отримує деталі кота за його унікальним ідентифікатором
+// GetCatByID Returns the cat for his ID.
+// @Summary Get a cat for ID
+// @Description Receives cat details by its unique ID
 // @Tags cats
 // @Accept json
 // @Produce json
-// @Param id path int true "ID кота"
+// @Param id path int true "ID cat"
 // @Success 200 {object} model.Cat
-// @Failure 404 {object} map[string]string "Кіт не знайдений"
-// @Failure 500 {object} map[string]string "Внутрішня помилка сервера"
+// @Failure 404 {object} map[string]string "Cat is not found"
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /cats/{id} [get]
 func (h *CatHandler) GetCatByID(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -91,17 +89,17 @@ func (h *CatHandler) GetCatByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, cat)
 }
 
-// UpdateSalary оновлює зарплату кота.
-// @Summary Оновити зарплату кота
-// @Description Оновлює зарплату кота за його ID
+// UpdateSalary Updates a cat's salary.
+// @Summary Update a cat's salary
+// @Description Updates a cat's salary for his ID
 // @Tags cats
 // @Accept json
 // @Produce json
 // @Param id path int true "ID кота"
-// @Param salary body float64 true "Нова зарплата"
+// @Param salary body float64 true "New salary"
 // @Success 200
-// @Failure 400 {object} map[string]string "Невірний запит"
-// @Failure 500 {object} map[string]string "Внутрішня помилка сервера"
+// @Failure 400 {object} map[string]string “Incorrect request”
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /cats/{id}/salary [put]
 func (h *CatHandler) UpdateSalary(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -119,15 +117,15 @@ func (h *CatHandler) UpdateSalary(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-// DeleteCat видаляє кота за його ID.
-// @Summary Видалити кота
-// @Description Видаляє кота за його унікальним ідентифікатором
+// DeleteCat Removes the cat for his ID.
+// @Summary Remove the cat
+// @Description Removes the cat by its unique ID
 // @Tags cats
 // @Accept json
 // @Produce json
-// @Param id path int true "ID кота"
+// @Param id path int true "ID cat"
 // @Success 200
-// @Failure 500 {object} map[string]string "Внутрішня помилка сервера"
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /cats/{id} [delete]
 func (h *CatHandler) DeleteCat(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

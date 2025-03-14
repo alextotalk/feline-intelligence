@@ -19,7 +19,7 @@ type CatUsecase interface {
 
 type catUsecase struct {
 	catRepo domain.CatRepository
-	catAPI  catapi.CatAPI // для валідації породи
+	catAPI  catapi.CatAPI
 }
 
 func NewCatUsecase(cr domain.CatRepository, catAPI catapi.CatAPI) CatUsecase {
@@ -29,7 +29,7 @@ func NewCatUsecase(cr domain.CatRepository, catAPI catapi.CatAPI) CatUsecase {
 	}
 }
 
-// CreateCat створює кота, перевіряючи, чи порода валідна (через TheCatAPI).
+// CreateCat Creates a cat by checking whether the rock is valid (through thecatapi).
 func (u *catUsecase) CreateCat(ctx context.Context, cat *model.Cat) error {
 	valid, err := u.catAPI.IsBreedValid(ctx, cat.Breed)
 	if err != nil {

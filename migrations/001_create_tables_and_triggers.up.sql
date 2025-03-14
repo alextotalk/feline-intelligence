@@ -1,4 +1,4 @@
--- Таблиця для шпигунських котів
+-- A table for spy cats
 CREATE TABLE spy_cats (
                           id SERIAL PRIMARY KEY,
                           name TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE spy_cats (
                           created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Індекси для швидкого пошуку котів
+-- Indexes to quickly search cats
 CREATE INDEX idx_spy_cats_name ON spy_cats(name);
 CREATE INDEX idx_spy_cats_breed ON spy_cats(breed);
 
@@ -20,16 +20,16 @@ CREATE TABLE missions (
                           created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Унікальний індекс, що забезпечує: один кіт може мати лише одну активну місію
+-- Unique index providing: one cat can only have one active mission
 CREATE UNIQUE INDEX idx_unique_active_mission
     ON missions(cat_id)
     WHERE completed = false AND cat_id IS NOT NULL;
 
--- Індекси для швидкого пошуку місій за котом та станом
+-- Indexes for a quick search for cat and condition
 CREATE INDEX idx_missions_cat_id ON missions(cat_id);
 CREATE INDEX idx_missions_completed ON missions(completed);
 
--- Тригер для заборони видалення місії, якщо вона вже призначена коту
+-- Trigger to prohibit the removal of a mission if it is already assigned a cat
 CREATE OR REPLACE FUNCTION prevent_mission_delete_if_assigned()
 RETURNS trigger AS $$
 BEGIN
@@ -45,7 +45,7 @@ CREATE TRIGGER trg_prevent_mission_delete
     FOR EACH ROW
     EXECUTE FUNCTION prevent_mission_delete_if_assigned();
 
--- Таблиця для цілей місії
+-- Table for mission purposes
 CREATE TABLE targets (
                          id SERIAL PRIMARY KEY,
                          mission_id INTEGER NOT NULL REFERENCES missions(id) ON DELETE CASCADE,
@@ -56,12 +56,12 @@ CREATE TABLE targets (
                          created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Індекси для швидкого пошуку цілей
+-- Indexes to quickly search for goals
 CREATE INDEX idx_targets_mission_id ON targets(mission_id);
 CREATE INDEX idx_targets_complete ON targets(complete);
 CREATE INDEX idx_targets_country ON targets(country);
 
--- Тригер для перевірки: при додаванні нової цілі перевіряється, що місія не завершена та кількість цілей не перевищує 3
+-- Trigger to verify: when adding a new target is checked that the mission is not completed and the number of targets does not exceed 3
 CREATE OR REPLACE FUNCTION check_max_targets()
 RETURNS trigger AS $$
 DECLARE
@@ -88,7 +88,7 @@ CREATE TRIGGER trg_check_max_targets
     FOR EACH ROW
     EXECUTE FUNCTION check_max_targets();
 
--- Тригер для перевірки: заборона видалення завершеної цілі та забезпечення мінімуму (хоча б 1 ціль має залишитись)
+-- Trigger to check: Prohibition of deleting the completed target and providing a minimum (at least 1 target should remain)
 CREATE OR REPLACE FUNCTION check_min_targets_and_prevent_delete_completed()
 RETURNS trigger AS $$
 DECLARE
@@ -112,7 +112,7 @@ CREATE TRIGGER trg_check_min_targets
     FOR EACH ROW
     EXECUTE FUNCTION check_min_targets_and_prevent_delete_completed();
 
--- Тригер для "заморожування" нотаток, якщо або ціль, або місія завершені
+-- Trigger to "freeze" notes if either target or mission is completed
 CREATE OR REPLACE FUNCTION freeze_notes_if_completed()
 RETURNS trigger AS $$
 DECLARE

@@ -39,17 +39,14 @@ const (
 // @host localhost:8080
 // @BasePath /
 func main() {
-	// 1. Завантаження конфігурації
 	cfg, err := config.LoadConfig("config/local.yaml")
 	if err != nil {
 		log.Fatalf("cannot read config: %v", err)
 	}
 
-	// 2. Ініціалізація логера
 	logger := InitLogger(cfg.App.Env)
 	logger.Info("Starting application", "app", cfg.App.Name, "env", cfg.App.Env)
 
-	// 3. Підключення до БД
 	db, err := pg.NewPostgres(cfg)
 	if err != nil {
 		logger.Error("Failed to initialize Postgres", sl.Err(err))
@@ -58,29 +55,23 @@ func main() {
 	defer db.Close()
 	logger.Info("Successfully connected to Postgres", "host", cfg.Database.Host)
 
-	// 4. Ініціалізуємо клієнт для TheCatAPI (для валідації породи)
-	// Приклад: базова URL та ключ із конфіга (якщо є).
 	catAPI := catapi.NewCatAPI("https://api.thecatapi.com", "") // наприклад, cfg.App.TheCatAPIKey
 
-	// 5. Створюємо репозиторії
 	catRepo := repository.NewCatPgRepository(db)
 	missionRepo := repository.NewMissionPgRepository(db)
 	targetRepo := repository.NewTargetPgRepository(db)
 
-	// 6. Створюємо UseCase
 	catUC := usecase.NewCatUsecase(catRepo, catAPI)
 	missionUC := usecase.NewMissionUsecase(missionRepo, targetRepo, catRepo)
 
-	// 7. Ініціалізуємо Echo + middleware
 	e := echo.New()
-	e.Use(middleware.Logger())  // логування HTTP-запитів
-	e.Use(middleware.Recover()) // відновлення після panic
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	// 8. Реєструємо HTTP-хендлери
+
 	handlers.NewCatHandler(e, catUC)
 	handlers.NewMissionHandler(e, missionUC)
 
-	// 9. Запуск сервера
 	go func() {
 		address := fmt.Sprintf(":%d", cfg.Server.Port)
 		logger.Info("Starting server", "address", address)
@@ -90,7 +81,6 @@ func main() {
 		}
 	}()
 
-	// 10. Грейсфул шатдаун
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -107,7 +97,6 @@ func main() {
 	logger.Info("Application shut down gracefully.")
 }
 
-// InitLogger приклад ініціалізації slog залежно від середовища.
 func InitLogger(env string) *slog.Logger {
 	switch env {
 	case envLocal:

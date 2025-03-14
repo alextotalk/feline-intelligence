@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// CatAPI описує методи взаємодії з TheCatAPI.
+// CatAPI describes methods of interaction with thecatapi.
 type CatAPI interface {
 	IsBreedValid(ctx context.Context, breedName string) (bool, error)
 }
@@ -19,8 +19,7 @@ type catAPI struct {
 	apiKey     string
 }
 
-// NewCatAPI створює екземпляр для роботи з TheCatAPI.
-// Наприклад, apiKey можна взяти з env/config (TheCatAPIKey).
+// NewCatAPI Creates an instance for working with thecatapi.
 func NewCatAPI(apiURL, apiKey string) CatAPI {
 	return &catAPI{
 		httpClient: &http.Client{Timeout: 10 * time.Second},
@@ -29,13 +28,12 @@ func NewCatAPI(apiURL, apiKey string) CatAPI {
 	}
 }
 
-// TheCatAPI повертає список усіх порід у JSON, і ми перевіряємо, чи breedName входить у цей список.
 func (c *catAPI) IsBreedValid(ctx context.Context, breedName string) (bool, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.apiURL+"/v1/breeds", nil)
 	if err != nil {
 		return false, err
 	}
-	// Якщо потрібен ключ для TheCatAPI:
+
 	if c.apiKey != "" {
 		req.Header.Set("x-api-key", c.apiKey)
 	}
@@ -50,7 +48,6 @@ func (c *catAPI) IsBreedValid(ctx context.Context, breedName string) (bool, erro
 		return false, fmt.Errorf("catapi: unexpected status code %d", resp.StatusCode)
 	}
 
-	// Парсимо JSON
 	var data []struct {
 		Name string `json:"name"`
 	}
@@ -58,7 +55,6 @@ func (c *catAPI) IsBreedValid(ctx context.Context, breedName string) (bool, erro
 		return false, err
 	}
 
-	// Перевіряємо, чи breedName є серед списку
 	for _, b := range data {
 		if b.Name == breedName {
 			return true, nil
