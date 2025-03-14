@@ -18,6 +18,7 @@ COPY config/local.yaml /usr/local/src/config/local.yaml
 # Копируем исходный код
 COPY cmd/ cmd/
 COPY internal/ internal/
+COPY docs/ docs/
 
 # Сборка Go-приложения
 RUN go build -o ./bin/app ./cmd/app/main.go

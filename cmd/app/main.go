@@ -12,9 +12,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-
 	"github.com/alextotalk/feline-intelligence/internal/config"
 	"github.com/alextotalk/feline-intelligence/internal/delivery/handlers"
 	"github.com/alextotalk/feline-intelligence/internal/infrastructure/catapi"
@@ -23,6 +20,11 @@ import (
 	"github.com/alextotalk/feline-intelligence/internal/lib/logger/sl"
 	"github.com/alextotalk/feline-intelligence/internal/storage/pg"
 	"github.com/alextotalk/feline-intelligence/internal/usecase"
+
+	_ "github.com/alextotalk/feline-intelligence/docs"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/swaggo/echo-swagger"
 )
 
 const (
@@ -31,6 +33,11 @@ const (
 	envProd  = "prod"
 )
 
+// @title Feline Intelligence API
+// @version 1.0
+// @description API для управління шпигунськими котами, місіями та цілями.
+// @host localhost:8080
+// @BasePath /
 func main() {
 	// 1. Завантаження конфігурації
 	cfg, err := config.LoadConfig("config/local.yaml")
@@ -68,7 +75,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())  // логування HTTP-запитів
 	e.Use(middleware.Recover()) // відновлення після panic
-
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	// 8. Реєструємо HTTP-хендлери
 	handlers.NewCatHandler(e, catUC)
 	handlers.NewMissionHandler(e, missionUC)

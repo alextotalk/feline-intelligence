@@ -1,0 +1,520 @@
+basePath: /
+definitions:
+  model.Cat:
+    properties:
+      breed:
+        example: Siamese
+        type: string
+      created_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Whiskers
+        type: string
+      salary:
+        example: 1000
+        type: number
+      years_of_experience:
+        example: 5
+        type: integer
+    type: object
+  model.Mission:
+    properties:
+      cat_id:
+        description: Якщо кіт ще не призначений, може бути nil
+        example: 1
+        type: integer
+      completed:
+        example: false
+        type: boolean
+      created_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      targets:
+        items:
+          $ref: '#/definitions/model.Target'
+        type: array
+    type: object
+  model.Target:
+    properties:
+      complete:
+        example: false
+        type: boolean
+      country:
+        example: Meowland
+        type: string
+      created_at:
+        example: "2023-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      mission_id:
+        example: 1
+        type: integer
+      name:
+        example: Target Alpha
+        type: string
+      notes:
+        example: Highly guarded
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для управління шпигунськими котами, місіями та цілями.
+  title: Feline Intelligence API
+  version: "1.0"
+paths:
+  /cats:
+    get:
+      consumes:
+      - application/json
+      description: Отримує список усіх шпигунських котів
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Cat'
+            type: array
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Список котів
+      tags:
+      - cats
+    post:
+      consumes:
+      - application/json
+      description: Створює нового шпигунського кота з наданими даними
+      parameters:
+      - description: Дані кота
+        in: body
+        name: cat
+        required: true
+        schema:
+          $ref: '#/definitions/model.Cat'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Cat'
+        "400":
+          description: Невірний запит
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Створити кота
+      tags:
+      - cats
+  /cats/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Видаляє кота за його унікальним ідентифікатором
+      parameters:
+      - description: ID кота
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Видалити кота
+      tags:
+      - cats
+    get:
+      consumes:
+      - application/json
+      description: Отримує деталі кота за його унікальним ідентифікатором
+      parameters:
+      - description: ID кота
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Cat'
+        "404":
+          description: Кіт не знайдений
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Отримати кота за ID
+      tags:
+      - cats
+  /cats/{id}/salary:
+    put:
+      consumes:
+      - application/json
+      description: Оновлює зарплату кота за його ID
+      parameters:
+      - description: ID кота
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Нова зарплата
+        in: body
+        name: salary
+        required: true
+        schema:
+          type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Невірний запит
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Оновити зарплату кота
+      tags:
+      - cats
+  /missions:
+    get:
+      consumes:
+      - application/json
+      description: Отримує список усіх місій
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Mission'
+            type: array
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Список місій
+      tags:
+      - missions
+    post:
+      consumes:
+      - application/json
+      description: Створює нову місію з наданими даними
+      parameters:
+      - description: Дані місії
+        in: body
+        name: mission
+        required: true
+        schema:
+          $ref: '#/definitions/model.Mission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Mission'
+        "400":
+          description: Невірний запит
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Створити місію
+      tags:
+      - missions
+  /missions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Видаляє місію за її ID
+      parameters:
+      - description: ID місії
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Конфлікт (наприклад, місія призначена коту)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Видалити місію
+      tags:
+      - missions
+    get:
+      consumes:
+      - application/json
+      description: Отримує деталі місії за її унікальним ідентифікатором
+      parameters:
+      - description: ID місії
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Mission'
+        "404":
+          description: Місія не знайдена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутрішня помилка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Отримати місію за ID
+      tags:
+      - missions
+  /missions/{id}/assign/{catID}:
+    post:
+      consumes:
+      - application/json
+      description: Призначає кота до конкретної місії
+      parameters:
+      - description: ID місії
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: ID кота
+        in: path
+        name: catID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Конфлікт (наприклад, кіт вже має активну місію)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Призначити кота до місії
+      tags:
+      - missions
+  /missions/{id}/complete:
+    put:
+      consumes:
+      - application/json
+      description: Позначає місію як завершену
+      parameters:
+      - description: ID місії
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Конфлікт (наприклад, місія вже завершена)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Завершити місію
+      tags:
+      - missions
+  /missions/{id}/targets:
+    post:
+      consumes:
+      - application/json
+      description: Додає нову ціль до конкретної місії
+      parameters:
+      - description: ID місії
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Дані цілі
+        in: body
+        name: target
+        required: true
+        schema:
+          $ref: '#/definitions/model.Target'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Target'
+        "400":
+          description: Невірний запит
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Конфлікт (наприклад, місія завершена або має максимум цілей)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Додати ціль до місії
+      tags:
+      - targets
+  /targets/{targetID}:
+    delete:
+      consumes:
+      - application/json
+      description: Видаляє ціль за її ID
+      parameters:
+      - description: ID цілі
+        in: path
+        name: targetID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Конфлікт (наприклад, ціль завершена або місія має лише одну
+            ціль)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Видалити ціль
+      tags:
+      - targets
+  /targets/{targetID}/complete:
+    put:
+      consumes:
+      - application/json
+      description: Позначає ціль як завершену
+      parameters:
+      - description: ID цілі
+        in: path
+        name: targetID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Конфлікт (наприклад, ціль вже завершена)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Завершити ціль
+      tags:
+      - targets
+  /targets/{targetID}/notes:
+    put:
+      consumes:
+      - application/json
+      description: Оновлює нотатки для конкретної цілі
+      parameters:
+      - description: ID цілі
+        in: path
+        name: targetID
+        required: true
+        type: integer
+      - description: Нові нотатки
+        in: body
+        name: notes
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Невірний запит
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Конфлікт (наприклад, ціль або місія завершені)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Оновити нотатки цілі
+      tags:
+      - targets
+swagger: "2.0"
