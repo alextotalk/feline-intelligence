@@ -788,7 +788,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Feline Intelligence API",
-	Description:      "API для управління шпигунськими котами, місіями та цілями.",
+	Description:      "APIs to manage spy cats, missions and goals.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

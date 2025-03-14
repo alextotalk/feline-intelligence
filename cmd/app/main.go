@@ -35,7 +35,7 @@ const (
 
 // @title Feline Intelligence API
 // @version 1.0
-// @description API для управління шпигунськими котами, місіями та цілями.
+// @description APIs to manage spy cats, missions and goals.
 // @host localhost:8080
 // @BasePath /
 func main() {
