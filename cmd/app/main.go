@@ -52,7 +52,6 @@ func main() {
 		logger.Error("Failed to initialize Postgres", sl.Err(err))
 		os.Exit(1)
 	}
-	defer db.Close()
 	logger.Info("Successfully connected to Postgres", "host", cfg.Database.Host)
 
 	catAPI := catapi.NewCatAPI("https://api.thecatapi.com", "") // наприклад, cfg.App.TheCatAPIKey
@@ -92,6 +91,10 @@ func main() {
 
 	if err := e.Shutdown(shutdownCtx); err != nil {
 		logger.Error("Error shutting down server", sl.Err(err))
+	}
+
+	if err := db.Close(); err != nil {
+		logger.Error("Error closing database connection", sl.Err(err))
 	}
 
 	logger.Info("Application shut down gracefully.")
