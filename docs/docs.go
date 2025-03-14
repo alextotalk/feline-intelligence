@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/cats": {
             "get": {
-                "description": "Отримує список усіх шпигунських котів",
+                "description": "Gets a list of all spy cats",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,7 +27,7 @@ const docTemplate = `{
                 "tags": [
                     "cats"
                 ],
-                "summary": "Список котів",
+                "summary": "List of cats",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -39,7 +39,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -50,7 +50,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Створює нового шпигунського кота з наданими даними",
+                "description": "Creates a new spy cat with data provided",
                 "consumes": [
                     "application/json"
                 ],
@@ -60,10 +60,10 @@ const docTemplate = `{
                 "tags": [
                     "cats"
                 ],
-                "summary": "Створити кота",
+                "summary": "Create a cat",
                 "parameters": [
                     {
-                        "description": "Дані кота",
+                        "description": "Cat data",
                         "name": "cat",
                         "in": "body",
                         "required": true,
@@ -80,7 +80,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Невірний запит",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -89,7 +89,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -102,7 +102,7 @@ const docTemplate = `{
         },
         "/cats/{id}": {
             "get": {
-                "description": "Отримує деталі кота за його унікальним ідентифікатором",
+                "description": "Receives cat details by its unique ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -112,11 +112,11 @@ const docTemplate = `{
                 "tags": [
                     "cats"
                 ],
-                "summary": "Отримати кота за ID",
+                "summary": "Get a cat for ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID кота",
+                        "description": "ID cat",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -130,7 +130,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Кіт не знайдений",
+                        "description": "Cat is not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -139,7 +139,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -150,7 +150,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Видаляє кота за його унікальним ідентифікатором",
+                "description": "Removes the cat by its unique ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -160,11 +160,11 @@ const docTemplate = `{
                 "tags": [
                     "cats"
                 ],
-                "summary": "Видалити кота",
+                "summary": "Remove the cat",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID кота",
+                        "description": "ID cat",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -175,7 +175,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -188,7 +188,7 @@ const docTemplate = `{
         },
         "/cats/{id}/salary": {
             "put": {
-                "description": "Оновлює зарплату кота за його ID",
+                "description": "Updates a cat's salary for his ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -198,7 +198,7 @@ const docTemplate = `{
                 "tags": [
                     "cats"
                 ],
-                "summary": "Оновити зарплату кота",
+                "summary": "Update a cat's salary",
                 "parameters": [
                     {
                         "type": "integer",
@@ -208,7 +208,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Нова зарплата",
+                        "description": "New salary",
                         "name": "salary",
                         "in": "body",
                         "required": true,
@@ -222,7 +222,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "400": {
-                        "description": "Невірний запит",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -231,7 +231,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -244,7 +244,7 @@ const docTemplate = `{
         },
         "/missions": {
             "get": {
-                "description": "Отримує список усіх місій",
+                "description": "Gets a list of all missions",
                 "consumes": [
                     "application/json"
                 ],
@@ -254,7 +254,7 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Список місій",
+                "summary": "List of missions",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -266,7 +266,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -277,7 +277,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Створює нову місію з наданими даними",
+                "description": "Creates a new mission with the data provided",
                 "consumes": [
                     "application/json"
                 ],
@@ -287,10 +287,10 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Створити місію",
+                "summary": "Create a mission",
                 "parameters": [
                     {
-                        "description": "Дані місії",
+                        "description": "Mission data",
                         "name": "mission",
                         "in": "body",
                         "required": true,
@@ -307,7 +307,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Невірний запит",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -316,7 +316,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -329,7 +329,7 @@ const docTemplate = `{
         },
         "/missions/{id}": {
             "get": {
-                "description": "Отримує деталі місії за її унікальним ідентифікатором",
+                "description": "Receives mission details by its unique identifier",
                 "consumes": [
                     "application/json"
                 ],
@@ -339,11 +339,11 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Отримати місію за ID",
+                "summary": "Get a mission for ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID місії",
+                        "description": "ID mission",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -357,7 +357,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Місія не знайдена",
+                        "description": "Mission not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -366,7 +366,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Внутрішня помилка сервера",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -377,7 +377,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Видаляє місію за її ID",
+                "description": "Removes the mission for her ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -387,11 +387,11 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Видалити місію",
+                "summary": "Remove the mission",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID місії",
+                        "description": "ID mission",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -402,7 +402,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, місія призначена коту)",
+                        "description": "Conflict ( mission assigned a cat)",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -415,7 +415,7 @@ const docTemplate = `{
         },
         "/missions/{id}/assign/{catID}": {
             "post": {
-                "description": "Призначає кота до конкретної місії",
+                "description": "Appoints a cat to a particular mission",
                 "consumes": [
                     "application/json"
                 ],
@@ -425,18 +425,18 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Призначити кота до місії",
+                "summary": "To assign a cat to a mission",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID місії",
+                        "description": "ID mission",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "integer",
-                        "description": "ID кота",
+                        "description": "ID cat",
                         "name": "catID",
                         "in": "path",
                         "required": true
@@ -447,7 +447,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, кіт вже має активну місію)",
+                        "description": "Conflict ( cat already has an active mission)",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -460,7 +460,7 @@ const docTemplate = `{
         },
         "/missions/{id}/complete": {
             "put": {
-                "description": "Позначає місію як завершену",
+                "description": "Denotes the mission as completed",
                 "consumes": [
                     "application/json"
                 ],
@@ -470,7 +470,7 @@ const docTemplate = `{
                 "tags": [
                     "missions"
                 ],
-                "summary": "Завершити місію",
+                "summary": "Complete the mission",
                 "parameters": [
                     {
                         "type": "integer",
@@ -485,7 +485,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, місія вже завершена)",
+                        "description": "Conflict",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -498,7 +498,7 @@ const docTemplate = `{
         },
         "/missions/{id}/targets": {
             "post": {
-                "description": "Додає нову ціль до конкретної місії",
+                "description": "Adds a new target to a particular mission",
                 "consumes": [
                     "application/json"
                 ],
@@ -508,11 +508,11 @@ const docTemplate = `{
                 "tags": [
                     "targets"
                 ],
-                "summary": "Додати ціль до місії",
+                "summary": "Add the target to the mission",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID місії",
+                        "description": "ID mission",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -535,7 +535,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Невірний запит",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -544,7 +544,7 @@ const docTemplate = `{
                         }
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, місія завершена або має максимум цілей)",
+                        "description": "Conflict (mission is completed or has a maximum of purposes)",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -557,7 +557,7 @@ const docTemplate = `{
         },
         "/targets/{targetID}": {
             "delete": {
-                "description": "Видаляє ціль за її ID",
+                "description": "Removes the target for her ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -567,11 +567,11 @@ const docTemplate = `{
                 "tags": [
                     "targets"
                 ],
-                "summary": "Видалити ціль",
+                "summary": "Remove the target",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID цілі",
+                        "description": "ID targets",
                         "name": "targetID",
                         "in": "path",
                         "required": true
@@ -582,7 +582,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, ціль завершена або місія має лише одну ціль)",
+                        "description": "Conflict (eg target completed or mission has only one target)",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -595,7 +595,7 @@ const docTemplate = `{
         },
         "/targets/{targetID}/complete": {
             "put": {
-                "description": "Позначає ціль як завершену",
+                "description": "Denotes the target as completed",
                 "consumes": [
                     "application/json"
                 ],
@@ -605,11 +605,11 @@ const docTemplate = `{
                 "tags": [
                     "targets"
                 ],
-                "summary": "Завершити ціль",
+                "summary": "Complete the target",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID цілі",
+                        "description": "ID targets",
                         "name": "targetID",
                         "in": "path",
                         "required": true
@@ -620,7 +620,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, ціль вже завершена)",
+                        "description": "Conflict",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -633,7 +633,7 @@ const docTemplate = `{
         },
         "/targets/{targetID}/notes": {
             "put": {
-                "description": "Оновлює нотатки для конкретної цілі",
+                "description": "Updates notes for a particular purpose",
                 "consumes": [
                     "application/json"
                 ],
@@ -643,17 +643,17 @@ const docTemplate = `{
                 "tags": [
                     "targets"
                 ],
-                "summary": "Оновити нотатки цілі",
+                "summary": "Update goals notes",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID цілі",
+                        "description": "ID targets",
                         "name": "targetID",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Нові нотатки",
+                        "description": "New notes",
                         "name": "notes",
                         "in": "body",
                         "required": true,
@@ -667,7 +667,7 @@ const docTemplate = `{
                         "description": "OK"
                     },
                     "400": {
-                        "description": "Невірний запит",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -676,7 +676,7 @@ const docTemplate = `{
                         }
                     },
                     "409": {
-                        "description": "Конфлікт (наприклад, ціль або місія завершені)",
+                        "description": "Conflict",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -722,7 +722,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "cat_id": {
-                    "description": "Якщо кіт ще не призначений, може бути nil",
                     "type": "integer",
                     "example": 1
                 },
